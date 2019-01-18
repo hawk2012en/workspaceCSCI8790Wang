@@ -15,22 +15,26 @@ public class DefineNewClass {
 
    public static void main(String[] args) {
 		  String first, second, superclassName, subclassName;
-		  first = second = superclassName = subclassName = "";
+		  first = second = superclassName = subclassName = null;
 	      try {
 	          while (true) {
 	             UtilMenu.showMenuOptions();
 	             switch (UtilMenu.getOption()) {
 	             case 1:
-	                System.out.println("Enter two class names:");
-	                String[] clazNames = UtilMenu.getArguments();
-	                if(clazNames.length != 2) {
-	          		  System.out.println("The number of command-line arguments is not 2! Exit");
-	          		  System.exit(0);
-	          	  }
-	          	  else {	          		  
-		                first = clazNames[0];
-		                second = clazNames[1];
-		
+	            	 boolean isValid = false;
+	            	 do {
+	            		 System.out.println("Enter two class names:");
+	            		 String[] clazNames = UtilMenu.getArguments();
+	            		 if(clazNames.length == 2) {	            			 
+		 		                first = clazNames[0];
+				                second = clazNames[1];
+				                isValid = true;
+	            		 }
+	            		 else {
+	            			 System.out.println("[WRN] Invalid Input!");
+	            		 }
+	            	  } while(!isValid);
+	          	  	          		  		
 	          		  if(first.startsWith("Common") && !second.startsWith("Common")) {
 	          			  superclassName = first;
 	          			  subclassName = second;
@@ -52,17 +56,17 @@ public class DefineNewClass {
 	          		  else {
 	          			  superclassName = first;
 	          			  subclassName = second;
-	          		  }
-	          	  }
+	          		  }	          	  
 	          	  
-	          	  System.out.println("[DBG] Superclass Name: " + superclassName);
-	          	  System.out.println("[DBG] Subclass Name: " + subclassName);                
-	              setSuperClass(subclassName, superclassName);	               
+	          		  System.out.println("[DBG] Superclass Name: " + superclassName);
+	          		  System.out.println("[DBG] Subclass Name: " + subclassName);       	          		  
+	          		   
+	          		  setSuperClass(subclassName, superclassName);	               
+	          		  break;
+	          	 default:
 	                break;
-	             default:
-	                break;
-	             }
-	          }
+	           }
+	         }
 	       } catch (Exception e) {
 	          e.printStackTrace();
 	       }
@@ -71,6 +75,12 @@ public class DefineNewClass {
    
    static void setSuperClass(String clazSub, String clazSuper) {
 	   try {
+		   
+		   File directory = new File(OUTPUT_DIR);
+		   if (! directory.exists()){
+   			  directory.mkdir();
+   		   }
+
 	         ClassPool pool = ClassPool.getDefault();
 	         pool.insertClassPath(OUTPUT_DIR);
 	         System.out.println("[DBG] class path: " + OUTPUT_DIR);
