@@ -94,7 +94,7 @@ public class DefineNewClass {
 	         ccSub.writeFile(OUTPUT_DIR);
 	         System.out.println("[DBG] write output to: " + OUTPUT_DIR);
 	         System.out.println("[DBG]\t new class: " + ccSub.getName());
-
+	         
 	         ccSub.defrost();
 	         System.out.println("[DBG] modifications of the class definition will be permitted.");
 
@@ -103,6 +103,9 @@ public class DefineNewClass {
 
 	         ccSub.writeFile(OUTPUT_DIR);
 	         System.out.println("[DBG] write output to: " + OUTPUT_DIR);
+	         
+	         ccSub.defrost();
+	         ccSuper.defrost();
 	      } catch (NotFoundException | CannotCompileException | IOException e) {
 	         e.printStackTrace();
 	      }
