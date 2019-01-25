@@ -35,9 +35,8 @@ public class ToClass {
 	                 CtClass cc = cp.get("target." + className);
 	                 CtConstructor declaredConstructor = cc.getDeclaredConstructor(new CtClass[0]);
 	                 declaredConstructor.insertAfter("{ " //
-	                       + "System.out.println(\"id: \" + id); }");
-	                 declaredConstructor.insertAfter("{ " //
-		                       + "System.out.println(\"year: \" + year); }");
+	                       + "System.out.println(\"id: \" + id); "
+	                       + "System.out.println(\"year: \" + year); }");	                 
 
 	                 Class<?> c = cc.toClass();
 	                 c.newInstance();
