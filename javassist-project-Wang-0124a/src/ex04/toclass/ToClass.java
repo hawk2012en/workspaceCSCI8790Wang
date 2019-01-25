@@ -4,9 +4,7 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
-import javassist.CtMethod;
 import javassist.NotFoundException;
-import target.Hello;
 import ex04.util.UtilMenu;
 
 public class ToClass {
@@ -21,38 +19,37 @@ public class ToClass {
 	            	 do {
 	            		 System.out.println("Enter one class names:");
 	            		 String[] clazNames = UtilMenu.getArguments();
-	            		 if(clazNames.length != 1) {	            			 
+	            		 if(clazNames == null) {
 	            			 System.out.println("[WRN] Invalid Input!");
 	            		 }
-	            		 else {
-	            			className = clazNames[0];
-	            			isValid = true;
+	            		 else if(clazNames.length != 1) {
+	            			 System.out.println("[WRN] Invalid Input!");
 	            		 }
-	            	  } while(!isValid);
-	          	  	          		  		
-	                 // Hello orig = new Hello(); // java.lang.LinkageError
+	            		 else {	            				            			
+	            			 className = clazNames[0];
+		            		 isValid = true;
+	            		 }
+	            	  } while(!isValid);	          	  	          		  		
 
 	                 ClassPool cp = ClassPool.getDefault();
-	                 CtClass cc = cp.get("target.Hello");
-	                 CtMethod m = cc.getDeclaredMethod("say");
-	                 m.insertBefore("{ System.out.println(\"[TR] Hello.say: \" + i); }");
-
+	                 CtClass cc = cp.get("target." + className);
 	                 CtConstructor declaredConstructor = cc.getDeclaredConstructor(new CtClass[0]);
 	                 declaredConstructor.insertAfter("{ " //
-	                       + "System.out.println(\"[TR] After calling a constructor: \" + i); }");
+	                       + "System.out.println(\"id: \" + id); }");
+	                 declaredConstructor.insertAfter("{ " //
+		                       + "System.out.println(\"year: \" + year); }");
 
 	                 Class<?> c = cc.toClass();
-	                 Hello h = (Hello) c.newInstance();
-	                 h.say();
-	               
+	                 c.newInstance();
 	          		  break;
 	          	 default:
 	                break;
 	           }
+          }
 
       } catch (NotFoundException | CannotCompileException | //
             InstantiationException | IllegalAccessException e) {
          System.out.println(e.toString());
       }
-   
+   }
 }
