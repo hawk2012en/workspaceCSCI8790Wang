@@ -18,23 +18,37 @@ public class JavassistLoaderExample {
    public static void main(String[] args) {
 	   String method1, method2, method3;
 	   method1 = method2 = method3 = null;
+	   boolean addStatusChanged = false;
+	   boolean removeStatusChanged = false;
       try {
+    	while (true) {
     	  UtilMenu.showMenuOptions();
           switch (UtilMenu.getOption()) {
           case 1:
          	 boolean isValid = false;
          	 do {
-         		 System.out.println("Enter method names as add, incX, getX or remove, incY, getY:");
+         		 System.out.println("Enter method names as \"add incX getX\" or \"remove incY getY\":");
          		 String[] clazNames = UtilMenu.getArguments();
-         		 if(clazNames.length != 3) {	            			 
-         			 System.out.println("[WRN] Invalid Input!");
-         		 }
-         		 else {
-         			method1 = clazNames[0];
-         			method2 = clazNames[1];
-         			method3 = clazNames[2];
-         			isValid = true;
-         		 }
+        		 if(clazNames == null) {
+        			 System.out.println("[WRN] Invalid Input!");
+        		 }
+        		 else if(clazNames.length != 3) {
+        			 System.out.println("[WRN] Invalid Input!");
+        		 }
+        		 else {	            				            			
+          			method1 = clazNames[0];
+          			method2 = clazNames[1];
+          			method3 = clazNames[2];
+          			isValid = true;
+          			if(method1.equals("add") && addStatusChanged) {
+          				System.out.println("[WRN] This method \'add\' has been modified!!");
+          				isValid = false;
+          			}
+          			if(method1.equals("remove") && removeStatusChanged) {
+          				System.out.println("[WRN] This method \'remove\' has been modified!!");
+          				isValid = false;
+          			}
+        		 }
          	  } while(!isValid);
        	  	          		  		
              ClassPool cp = ClassPool.getDefault();
@@ -43,10 +57,10 @@ public class JavassistLoaderExample {
 
              CtClass cc = cp.get(TARGET_RECTANGLE);
              cc.setSuperclass(cp.get(TARGET_POINT));
-             CtMethod m1 = cc.getDeclaredMethod("getVal");
+             CtMethod m1 = cc.getDeclaredMethod(method1);
              m1.insertBefore("{ " //
-                   + "move(10, 20);" //
-                   + "System.out.println(\"[TR] getX result : \" + getX()); }");
+                   + method2 + "();" //
+                   + "System.out.println(\"[TR] "+ method3 + " result : \" + " + method3 + "()); }");
 
              Loader cl = new Loader(cp);
              Class<?> c = cl.loadClass(TARGET_RECTANGLE);
@@ -54,17 +68,25 @@ public class JavassistLoaderExample {
              System.out.println("[DBG] Created a Rectangle object.");
 
              Class<?> rectClass = rect.getClass();
-             Method m = rectClass.getDeclaredMethod("getVal", new Class[] {});
+             Method m = rectClass.getDeclaredMethod(method1, new Class[] {});
              System.out.println("[DBG] Called getDeclaredMethod.");
              Object invoker = m.invoke(rect, new Object[] {});
-             System.out.println("[DBG] getVal result: " + invoker);
+             System.out.println("[DBG] " + method3 + " result: " + invoker);
+             
+             if(method1.equals("add")) {
+            	 addStatusChanged = true;
+             }
+             if(method1.equals("remove")) {
+            	 removeStatusChanged = true;
+             }
+             cc.defrost();
             
        		  break;
        	 default:
              break;
         }
- 
-      } catch (Exception e) {
+       }
+      }catch (Exception e) {
          e.printStackTrace();
       }
    }
