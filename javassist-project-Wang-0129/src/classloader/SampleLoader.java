@@ -9,18 +9,46 @@ import javassist.CtClass;
 import javassist.CtField;
 import javassist.Modifier;
 import javassist.NotFoundException;
+import util.UtilMenu;
 
 public class SampleLoader extends ClassLoader {
    static String WORK_DIR = System.getProperty("user.dir");
    static String INPUT_DIR = WORK_DIR + File.separator + "classfiles";
-   static String TARGET_APP = "MyApp";
+   static String appName, fieldName;
    private ClassPool pool;
 
    public static void main(String[] args) throws Throwable {
-      SampleLoader s = new SampleLoader();
-      Class<?> c = s.loadClass(TARGET_APP);
-      c.getDeclaredMethod("main", new Class[] { String[].class }). //
-            invoke(null, new Object[] { args });
+	   String [] myArgs = new String[2]; 
+   	while (true) {
+  	  UtilMenu.showMenuOptions();
+        switch (UtilMenu.getOption()) {
+        case 1:
+       	 boolean isValid = false;
+       	 do {
+       		 System.out.println("Enter parameters as \"ComponentApp f1\" or \"ServiceApp f2\":");
+       		 String[] clazNames = UtilMenu.getArguments();
+      		 if(clazNames == null) {
+      			 System.out.println("[WRN] Invalid Input!");
+      		 }
+      		 else if(clazNames.length != 2) {
+      			 System.out.println("[WRN] Invalid Input!");
+      		 }
+      		 else {	            				            			
+      			myArgs[0] = appName = clazNames[0];
+      			myArgs[1] =	fieldName = clazNames[1];
+        			isValid = true;        			
+      		 }
+       	  } while(!isValid);
+     	  	          		  		
+         SampleLoader s = new SampleLoader();
+         Class<?> c = s.loadClass(appName);
+         c.getDeclaredMethod("main", new Class[] { String[].class }). //
+               invoke(null, new Object[] { myArgs });          
+     		  break;
+     	 default:
+           break;
+      }
+     }
    }
 
    public SampleLoader() throws NotFoundException {
@@ -34,8 +62,8 @@ public class SampleLoader extends ClassLoader {
    protected Class<?> findClass(String name) throws ClassNotFoundException {
       try {
          CtClass cc = pool.get(name);
-         if (name.equals("MyApp")) {
-            CtField f = new CtField(CtClass.intType, "hiddenValue", cc);
+         if (name.equals(appName)) {
+            CtField f = new CtField(CtClass.doubleType, fieldName, cc);
             f.setModifiers(Modifier.PUBLIC);
             cc.addField(f);
          }
