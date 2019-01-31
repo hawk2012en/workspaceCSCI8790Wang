@@ -15,22 +15,19 @@ public class ToClass {
 	             UtilMenu.showMenuOptions();
 	             switch (UtilMenu.getOption()) {
 	             case 1:
-	            	 boolean isValid = false;
-	            	 do {
 	            		 System.out.println("Enter one class names:");
 	            		 String[] clazNames = UtilMenu.getArguments();
 	            		 if(clazNames == null) {
 	            			 System.out.println("[WRN] Invalid Input!");
+	            			 break;
 	            		 }
 	            		 else if(clazNames.length != 1) {
 	            			 System.out.println("[WRN] Invalid Input!");
+	            			 break;
 	            		 }
 	            		 else {	            				            			
 	            			 className = clazNames[0];
-		            		 isValid = true;
-	            		 }
-	            	  } while(!isValid);	          	  	          		  		
-
+	            		 }	          	  	          		  		
 	                 ClassPool cp = ClassPool.getDefault();
 	                 CtClass cc = cp.get("target." + className);
 	                 CtConstructor declaredConstructor = cc.getDeclaredConstructor(new CtClass[0]);

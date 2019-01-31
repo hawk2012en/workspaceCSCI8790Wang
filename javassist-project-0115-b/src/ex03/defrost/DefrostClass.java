@@ -15,7 +15,8 @@ public class DefrostClass {
    public static void main(String[] args) {
       try {
          ClassPool pool = ClassPool.getDefault();
-         pool.insertClassPath(OUTPUT_DIR);
+//         pool.insertClassPath(OUTPUT_DIR);
+         insertClassPath(pool);
          System.out.println("[DBG] class path: " + OUTPUT_DIR);
 
          CtClass ccPoint2 = pool.makeClass("Point2");

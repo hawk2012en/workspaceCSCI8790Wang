@@ -20,20 +20,21 @@ public class DefineNewClass {
 	          while (true) {
 	             UtilMenu.showMenuOptions();
 	             switch (UtilMenu.getOption()) {
-	             case 1:
-	            	 boolean isValid = false;
-	            	 do {
+	             case 1:	            	 
 	            		 System.out.println("Enter two class names:");
 	            		 String[] clazNames = UtilMenu.getArguments();
-	            		 if(clazNames.length == 2) {	            			 
-		 		                first = clazNames[0];
-				                second = clazNames[1];
-				                isValid = true;
+	            		 if(clazNames == null) {
+	            			 System.out.println("[WRN] Invalid Input!");
+	            			 break;
+	            		 }
+	            		 else if(clazNames.length != 2) {	            
+	            			 System.out.println("[WRN] Invalid Input!");
+	            			 break;
 	            		 }
 	            		 else {
-	            			 System.out.println("[WRN] Invalid Input!");
+		 		                first = clazNames[0];
+				                second = clazNames[1];
 	            		 }
-	            	  } while(!isValid);
 	          	  	          		  		
 	          		  if(first.startsWith("Common") && !second.startsWith("Common")) {
 	          			  superclassName = first;
