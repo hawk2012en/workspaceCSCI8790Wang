@@ -23,22 +23,20 @@ public class SampleLoader extends ClassLoader {
   	  UtilMenu.showMenuOptions();
         switch (UtilMenu.getOption()) {
         case 1:
-       	 boolean isValid = false;
-       	 do {
        		 System.out.println("Enter parameters as \"ComponentApp f1\" or \"ServiceApp f2\":");
        		 String[] clazNames = UtilMenu.getArguments();
       		 if(clazNames == null) {
       			 System.out.println("[WRN] Invalid Input!");
+      			 break;
       		 }
       		 else if(clazNames.length != 2) {
       			 System.out.println("[WRN] Invalid Input!");
+      			 break;
       		 }
       		 else {	            				            			
       			myArgs[0] = appName = clazNames[0];
-      			myArgs[1] =	fieldName = clazNames[1];
-        			isValid = true;        			
+      			myArgs[1] =	fieldName = clazNames[1];        			
       		 }
-       	  } while(!isValid);
      	  	          		  		
          SampleLoader s = new SampleLoader();
          Class<?> c = s.loadClass(appName);

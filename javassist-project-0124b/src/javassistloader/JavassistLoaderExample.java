@@ -29,6 +29,7 @@ public class JavassistLoaderExample {
 
          Loader cl = new Loader(cp);
          Class<?> c = cl.loadClass(TARGET_RECTANGLE);
+//         Class<?> c = cc.toClass();   toClass() can not be used here since Rectangle class inherits from Point class now
          Object rect = c.newInstance();
          System.out.println("[DBG] Created a Rectangle object.");
          
