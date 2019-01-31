@@ -31,7 +31,7 @@ public class JavassistLoaderExample {
          Class<?> c = cl.loadClass(TARGET_RECTANGLE);
          Object rect = c.newInstance();
          System.out.println("[DBG] Created a Rectangle object.");
-
+         
          Class<?> rectClass = rect.getClass();
          Method m = rectClass.getDeclaredMethod("getVal", new Class[] {});
          System.out.println("[DBG] Called getDeclaredMethod.");
