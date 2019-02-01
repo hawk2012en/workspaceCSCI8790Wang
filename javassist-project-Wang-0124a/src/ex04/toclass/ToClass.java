@@ -17,11 +17,7 @@ public class ToClass {
 	             case 1:
 	            		 System.out.println("Enter one class names:");
 	            		 String[] clazNames = UtilMenu.getArguments();
-	            		 if(clazNames == null) {
-	            			 System.out.println("[WRN] Invalid Input!");
-	            			 break;
-	            		 }
-	            		 else if(clazNames.length != 1) {
+	            		 if(clazNames == null || clazNames.length != 1) {
 	            			 System.out.println("[WRN] Invalid Input!");
 	            			 break;
 	            		 }

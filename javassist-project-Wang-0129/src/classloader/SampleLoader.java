@@ -25,11 +25,7 @@ public class SampleLoader extends ClassLoader {
         case 1:
        		 System.out.println("Enter parameters as \"ComponentApp f1\" or \"ServiceApp f2\":");
        		 String[] clazNames = UtilMenu.getArguments();
-      		 if(clazNames == null) {
-      			 System.out.println("[WRN] Invalid Input!");
-      			 break;
-      		 }
-      		 else if(clazNames.length != 2) {
+      		 if(clazNames == null || clazNames.length != 2) {
       			 System.out.println("[WRN] Invalid Input!");
       			 break;
       		 }

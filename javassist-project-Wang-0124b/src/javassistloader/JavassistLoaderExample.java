@@ -28,14 +28,10 @@ public class JavassistLoaderExample {
           case 1:
          		 System.out.println("Enter method names as \"add incX getX\" or \"remove incY getY\":");
          		 String[] clazNames = UtilMenu.getArguments();
-        		 if(clazNames == null) {
+        		 if(clazNames == null || clazNames.length != 3) {
         			 System.out.println("[WRN] Invalid Input!");
         			 break;
-        		 }
-        		 else if(clazNames.length != 3) {
-        			 System.out.println("[WRN] Invalid Input!");
-        			 break;
-        		 }
+        		 }        		 
         		 else {	            				            			
           			method1 = clazNames[0];
           			method2 = clazNames[1];

@@ -18,11 +18,7 @@ public class ToClass {
 	             case 1:
 	            		 System.out.println("Enter three parameters: ie. CommonServiceA, idA, nameA or CommonComponentB, idB, nameB");
 	            		 String[] clazNames = UtilMenu.getArguments();
-	            		 if(clazNames == null) {
-	            			 System.out.println("[WRN] Invalid Input!");
-	            			 break;
-	            		 }
-	            		 else if(clazNames.length != 3) {
+	            		 if(clazNames == null || clazNames.length != 3) {
 	            			 System.out.println("[WRN] Invalid Input!");
 	            			 break;
 	            		 }

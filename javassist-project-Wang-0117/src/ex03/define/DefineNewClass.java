@@ -23,11 +23,7 @@ public class DefineNewClass {
 	             case 1:	            	 
 	            		 System.out.println("Enter two class names:");
 	            		 String[] clazNames = UtilMenu.getArguments();
-	            		 if(clazNames == null) {
-	            			 System.out.println("[WRN] Invalid Input!");
-	            			 break;
-	            		 }
-	            		 else if(clazNames.length != 2) {	            
+	            		 if(clazNames == null || clazNames.length != 2) {
 	            			 System.out.println("[WRN] Invalid Input!");
 	            			 break;
 	            		 }
