@@ -16,7 +16,7 @@ public class ToClass {
 	             UtilMenu.showMenuOptions();
 	             switch (UtilMenu.getOption()) {
 	             case 1:
-	            		 System.out.println("Enter three parameters: ie. CommonServiceA, idA, nameA or CommonComponentB, idB, nameB");
+	            		 System.out.println("Enter three parameters: ie. CommonServiceA,idA,nameA or CommonComponentB,idB,nameB");
 	            		 String[] clazNames = UtilMenu.getArguments();
 	            		 if(clazNames == null || clazNames.length != 3) {
 	            			 System.out.println("[WRN] Invalid Input!");

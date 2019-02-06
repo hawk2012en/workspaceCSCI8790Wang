@@ -35,19 +35,21 @@ public class UtilMenu {
    }
 
    public static String[] getArguments() {
-      scanner = new Scanner(System.in);
-      String input = null;
+	      scanner = new Scanner(System.in);
+	      String input = null;
 
-      while (scanner.hasNextLine()) {
-         input = scanner.nextLine();
-         System.out.println(input);
-         if (input != null)
-            break;
-      }
+	      while (scanner.hasNextLine()) {
+	         input = scanner.nextLine();
+	         System.out.println(input);
+	         if (input != null)
+	            break;
+	      }
 
-      if (input != null && !input.trim().isEmpty()) {
-         return input.trim().split(",");
-      }
-      return null;
-   }
+	      if (input != null && !input.trim().isEmpty()) {
+	         return input.trim().split(",");
+	         
+	      }
+	      return null;
+	   }
+
 }
