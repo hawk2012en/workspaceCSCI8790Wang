@@ -42,7 +42,8 @@ public class InsertMethodBody {
 	                     CtClass cc = pool.get("target." + className);
 	                     CtMethod m = cc.getDeclaredMethod(methodName);
 	                     String block1 = "{ " + _L_ //
-	                           + "System.out.println(\"[Inserted] target." + className + "." + methodName + "\'s parm " + index + ": \" + $" + index + "); " + _L_ //
+	                           + "System.out.println(\"[Inserted] target." + className + "." + methodName 
+	                           + "\'s parm " + index + ": \" + $" + index + "); " + _L_ //
 	                           +  "}";
 	                     System.out.println(block1);
 	                     m.insertBefore(block1);
