@@ -16,14 +16,16 @@ public class SubstituteMethodBody extends ClassLoader {
    static final String WORK_DIR      = System.getProperty("user.dir");
    static final String INPUT_PATH    = WORK_DIR + File.separator + "classfiles";
 
-   static final String TARGET_MY_APP = "target.ComponentApp";
-   static final String MOVE_METHOD   = "move";
+   static String className = "ComponentApp";
+   static String methodName = "move";
+   static String paraIndex = "1";
+   static String paraValue = "0";
 
    static String _L_ = System.lineSeparator();
    
    public static void main(String[] args) throws Throwable {
       SubstituteMethodBody s = new SubstituteMethodBody();
-      Class<?> c = s.loadClass(TARGET_MY_APP);
+      Class<?> c = s.loadClass("target." + className);
       Method mainMethod = c.getDeclaredMethod("main", new Class[] { String[].class });
       mainMethod.invoke(null, new Object[] { args });
    }
@@ -45,20 +47,20 @@ public class SubstituteMethodBody extends ClassLoader {
          cc = pool.get(name);
          cc.instrument(new ExprEditor() {
             public void edit(MethodCall m) throws CannotCompileException {
-               String className = m.getClassName();
-               String methodName = m.getMethodName();
+               String className2 = m.getClassName();
+               String methodName2 = m.getMethodName();
  
-              if (className.equals(TARGET_MY_APP) && methodName.equals(MOVE_METHOD)) {
-                  System.out.println("[Edited by ClassLoader] method name: " + methodName + ", line: " + m.getLineNumber());
-                  String block2 = "{" + _L_ //
-                        + "System.out.println(\"\tReset param to zero.\"); " + _L_ //
-                        + "$1 = 0; " + _L_ //
-                        + "$proceed($$); " + _L_ //
-                        + "}";
-                  System.out.println("[DBG] BLOCK2: " + block2);
-                  System.out.println("------------------------");
-                  m.replace(block2);
-              }
+               if (className2.equals("target." + className) && methodName2.equals(methodName)) {
+                   System.out.println("[Edited by ClassLoader] method name: " + methodName + ", line: " + m.getLineNumber());
+                   String block2 = "{" + _L_ //
+                         + "System.out.println(\"\tReset param $" + paraIndex + " to " + paraValue +  ".\"); " + _L_ //
+                         + "$" + paraIndex + " = " + paraValue + "; " + _L_ //
+                         + "$proceed($$); " + _L_ //
+                         + "}";
+                   System.out.println("[DBG] BLOCK2: " + block2);
+                   System.out.println("------------------------");
+                   m.replace(block2);
+                }
             }
          });
          byte[] b = cc.toBytecode();
