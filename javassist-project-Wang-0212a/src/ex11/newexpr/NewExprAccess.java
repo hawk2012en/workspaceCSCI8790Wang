@@ -60,7 +60,6 @@ public class NewExprAccess extends ClassLoader {
                System.out.println(log);
                
                CtField fields[] = newExpr.getEnclosingClass().getDeclaredFields();              
-
                String block1 = "{ " + _L_ //
                      + "  $_ = $proceed($$);" + _L_ //
                      + "  System.out.print(" + "\"new expr: \" + " //
