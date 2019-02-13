@@ -66,7 +66,6 @@ public class NewExprAccess extends ClassLoader {
             	   try {
             		   String fieldName = fields[i].getName();
             		   String fieldType = fields[i].getType().getName();
-            		   
                        block1 += "  {"  + _L_ 
                                + "    String cName = $_.getClass().getName();" + _L_ //
                                + "    String fName = $_.getClass().getDeclaredFields()[" + i + "].getName();" + _L_//
