@@ -17,7 +17,7 @@ public class NewExprAccess extends ClassLoader {
    static final String WORK_DIR = System.getProperty("user.dir");
    static final String CLASS_PATH = WORK_DIR + File.separator + "classfiles";
    static String TARGET_MY_APP2 = "target.ComponentApp";
-   static String numFields = "1";
+   static int numFields = 3;
    static String _L_ = System.lineSeparator();
 
    public static void main(String[] args) throws Throwable {
@@ -61,15 +61,27 @@ public class NewExprAccess extends ClassLoader {
                
                CtField fields[] = newExpr.getEnclosingClass().getDeclaredFields();              
                String block1 = "{ " + _L_ //
-                     + "  $_ = $proceed($$);" + _L_ //
-                     + "  System.out.print(" + "\"new expr: \" + " //
-                     + "  $_.getClass().getName() + " + "\", \" );" + _L_ //
-                     + "  System.out.print($_.getClass().getDeclaredFields()[0].getName()" //
-                     + " + \": \"  + " + "$_.x + " + "\", \" );" + _L_ //
-                     + "  System.out.println($_.getClass().getDeclaredFields()[1].getName()" //
-                     + " + \": \"  + " + "$_.y);" + _L_ //
-                     + "}";
+                     + "  $_ = $proceed($$);" + _L_; //
+               for(int i = 0; i < numFields; i++ ) {
+            	   try {
+            		   String fieldName = fields[i].getName();
+            		   String fieldType = fields[i].getType().getName();
+            		   
+                       block1 += "  {"  + _L_ 
+                               + "    String cName = $_.getClass().getName();" + _L_ //
+                               + "    String fName = $_.getClass().getDeclaredFields()[" + i + "].getName();" + _L_//
+                               + "    String fieldFullName = cName + \".\" + fName;" + _L_//
+                               + "    " + fieldType + " fieldValue = $_." + fieldName + ";" + _L_//
+                               + "    System.out.println(\"  [Instrument] \" + fieldFullName + \": \" + fieldValue);" + _L_//
+                               + "  }"+ _L_;	   
+             
+            	   }catch (NotFoundException e) {
+                       e.printStackTrace();
+                   }
+               }
+               block1 += "}"  + _L_;
                System.out.println(block1);
+               System.out.println("------------------------");
                newExpr.replace(block1.toString());
             }
          });
