@@ -3,7 +3,6 @@ package ex11.newexpr;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-
 import javassist.CannotCompileException;
 import javassist.ClassClassPath;
 import javassist.ClassPool;
@@ -12,19 +11,46 @@ import javassist.CtField;
 import javassist.NotFoundException;
 import javassist.expr.ExprEditor;
 import javassist.expr.NewExpr;
+import util.UtilMenu;
 
 public class NewExprAccess extends ClassLoader {
    static final String WORK_DIR = System.getProperty("user.dir");
    static final String CLASS_PATH = WORK_DIR + File.separator + "classfiles";
-   static String TARGET_MY_APP2 = "target.ComponentApp";
-   static int numFields = 3;
+   static String TARGET_MY_APP2 = null;
+   static int numFields = 0;
    static String _L_ = System.lineSeparator();
 
    public static void main(String[] args) throws Throwable {
-      NewExprAccess s = new NewExprAccess();
-      Class<?> c = s.loadClass(TARGET_MY_APP2);
-      Method mainMethod = c.getDeclaredMethod("main", new Class[] { String[].class });
-      mainMethod.invoke(null, new Object[] { args });
+	   try {    	  
+	          while (true) {
+		             UtilMenu.showMenuOptions();
+		             switch (UtilMenu.getOption()) {
+		             case 1:
+		            		 System.out.println("Enter three parameters: ie. target.ComponentApp,1 or target.ServiceApp,100");
+		            		 String[] inputs = UtilMenu.getArguments();
+		            		 if(inputs == null || inputs.length != 2) {
+		            			 System.out.println("[WRN] Invalid Input!");
+		            			 break;
+		            		 }
+		            		 else {	            				            			
+		            			 TARGET_MY_APP2 = inputs[0];	            			 
+		            			 numFields = Integer.parseInt(inputs[1]) ;	            			 		            			 		            			 
+		            		 }	    
+				 
+		            		 NewExprAccess s = new NewExprAccess();
+		            	     Class<?> c = s.loadClass(TARGET_MY_APP2);
+		            	     Method mainMethod = c.getDeclaredMethod("main", new Class[] { String[].class });
+		            	     mainMethod.invoke(null, new Object[] { args });
+		                     
+		                     break;
+		          	 default:
+		                break;
+		           }	           
+	       }        
+
+	   } catch (Exception e) {
+	          e.printStackTrace();
+	   }      
    }
 
    private ClassPool pool;
@@ -59,7 +85,10 @@ public class NewExprAccess extends ClassLoader {
                      newExpr.getLineNumber(), newExpr.getSignature());
                System.out.println(log);
                
-               CtField fields[] = newExpr.getEnclosingClass().getDeclaredFields();              
+               CtField fields[] = newExpr.getEnclosingClass().getDeclaredFields(); 
+               if(numFields > fields.length) {
+            	   numFields = fields.length;
+               }
                String block1 = "{ " + _L_ //
                      + "  $_ = $proceed($$);" + _L_; //
                for(int i = 0; i < numFields; i++ ) {
@@ -78,7 +107,7 @@ public class NewExprAccess extends ClassLoader {
                        e.printStackTrace();
                    }
                }
-               block1 += "}"  + _L_;
+               block1 += "}";
                System.out.println(block1);
                System.out.println("------------------------");
                newExpr.replace(block1.toString());
