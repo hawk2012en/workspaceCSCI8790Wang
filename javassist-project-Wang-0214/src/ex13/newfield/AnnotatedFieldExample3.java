@@ -40,6 +40,7 @@ public class AnnotatedFieldExample3 {
 		                     for(int i = 0; i < cfs.length; i++) {  
 //		                    	 System.out.println(cfs[i].getName());
 		                    	 Object[] annoList = cfs[i].getAnnotations();
+//		                    	 checkAndProcess(annoList);
 		                    	 if(checkAnno(annoList)) {
 		                    		 process(annoList);
 		                    	 }
@@ -56,6 +57,16 @@ public class AnnotatedFieldExample3 {
 	   }     
    }
 
+/*   static void checkAndProcess(Object[] annoList) {
+// Assuming the first annotation is the one we need to match the input and the second annotation is always Author	      
+	     	Class<? extends Annotation> type = ((Annotation) annoList[0]).annotationType();
+	     	if (type.getName().endsWith(annoName)) {
+	            Author author = (Author) annoList[1];
+	            System.out.println("Name: " + author.name() + ", Year: " + author.year());	            
+	         } 	         
+	         
+   }*/
+   
    static boolean checkAnno(Object[] annoList) {
 	      for (int i = 0; i < annoList.length; i++) {
 	     	 Class<? extends Annotation> type = ((Annotation) annoList[i]).annotationType();
