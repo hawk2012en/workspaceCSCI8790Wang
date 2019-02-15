@@ -39,8 +39,9 @@ public class AnnotatedFieldExample3 {
 		                     CtField[] cfs = ct.getFields();
 		                     for(int i = 0; i < cfs.length; i++) {  
 //		                    	 System.out.println(cfs[i].getName());
-		                    	 if(checkAnno(cfs[i].getAnnotations())) {
-		                    		 process(cfs[i].getAnnotations());
+		                    	 Object[] annoList = cfs[i].getAnnotations();
+		                    	 if(checkAnno(annoList)) {
+		                    		 process(annoList);
 		                    	 }
 		                     }
 		                     
