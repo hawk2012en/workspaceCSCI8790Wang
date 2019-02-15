@@ -1,6 +1,7 @@
 package ex13.newfield;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -33,7 +34,7 @@ public class AnnotatedFieldExample3 {
    }
 
    static void process(Object[] annoList) {
-      for (int i = 0; i < annoList.length; i++) {
+      for (int i = 0; i < annoList.length; i++) {    	  
          if (annoList[i] instanceof Table) {
             Table table = (Table) annoList[0];
             System.out.println("Table: " + table.name() + ", ID: " + table.id());
