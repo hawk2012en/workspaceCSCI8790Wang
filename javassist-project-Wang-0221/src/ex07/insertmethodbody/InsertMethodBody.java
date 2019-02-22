@@ -54,6 +54,7 @@ public class InsertMethodBody {
 	                    	 System.out.println("[WRN] Invalid input class!!");
 	               			 break;
 	                     }
+	                     
 	                     CtClass[] params = m.getParameterTypes();
 	                     String block1 = "";
 	                     if(numPara > params.length) {
@@ -74,7 +75,7 @@ public class InsertMethodBody {
 	                     System.out.println(block1);
 	                     m.insertBefore(block1);
 	                     cc.writeFile(OUTPUT_DIR);
-	                     // System.out.println("[DBG] write output to: " + OUTPUT_DIR);
+	                     System.out.println("[DBG] write output to: " + OUTPUT_DIR);
 	                     // System.out.println("[DBG] \t" + UtilFile.getShortFileName(OUTPUT_DIR));
 	                     Class<?> c = cc.toClass();         
 	                     c.getDeclaredMethod("main", new Class[] { String[].class }). 
