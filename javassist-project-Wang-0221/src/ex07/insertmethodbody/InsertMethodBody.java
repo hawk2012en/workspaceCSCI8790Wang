@@ -6,6 +6,7 @@ import java.util.HashSet;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import javassist.NotFoundException;
 import util.UtilMenu;
 
 public class InsertMethodBody {
@@ -41,33 +42,36 @@ public class InsertMethodBody {
 		               				System.out.println("[WRN] Invalid input method!!");
 		               				break;
 		               		 }
-	            			 if( (className.equals("ComponentApp") && !methodName.equals("foo")) || 
-	            					(className.equals("ServiceApp")  && !methodName.equals("bar"))) {
-	            					System.out.println("[WRN] Invalid input class!!");
-		               				break;
-	            			 }
 	            		 }	    
 			 
 	            		 ClassPool pool = ClassPool.getDefault();
 	                     pool.insertClassPath(INPUT_DIR);
 	                     CtClass cc = pool.get("target." + className);
-	                     CtMethod m = cc.getDeclaredMethod(methodName);
+	                     CtMethod m;
+	                     try {
+	                        m = cc.getDeclaredMethod(methodName);
+	                     } catch (NotFoundException e) {
+	                    	 System.out.println("[WRN] Invalid input class!!");
+	               			 break;
+	                     }
+	                     CtClass[] params = m.getParameterTypes();
 	                     String block1 = "";
-	                     if(numPara > 3) {
+	                     if(numPara > params.length) {
 	                    	 block1 +=  "{ " + _L_ //
 	  	                           + "  System.out.println(\"[Inserted] target." + className + "." + methodName 
-		                           + "\'s parm " + 3 + ": \" + $" + 3 + "); " + _L_ //
+		                           + "\'s parm " + params.length + ": \" + $" + params.length + "); " + _L_ //
 		                           +  "}";
 	                     }
 	                     else {
+	                    	 block1 +=  "{ " + _L_ ;
 	                    	 for(int index = 1; index <= numPara; index++) {
-	                    		 block1 +=  "{ " + _L_ //
-	  	  	                           + "  System.out.println(\"[Inserted] target." + className + "." + methodName 
-	  		                           + "\'s parm " + index + ": \" + $" + index + "); " + _L_ //
-	  		                           +  "}";
+	                    		 block1 +=  
+	  	  	                             "  System.out.println(\"[Inserted] target." + className + "." + methodName 
+	  		                           + "\'s parm " + index + ": \" + $" + index + "); " + _L_ ;	  		                           
 	                    	 }
+	                    	 block1 +=  "}";
 	                     }
-	                     // System.out.println(block1);
+	                     System.out.println(block1);
 	                     m.insertBefore(block1);
 	                     cc.writeFile(OUTPUT_DIR);
 	                     // System.out.println("[DBG] write output to: " + OUTPUT_DIR);
