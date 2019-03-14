@@ -32,7 +32,7 @@ public class AnnotatedFieldExample3 {
          e.printStackTrace();
       }
    }
-
+   
    static void process(Object[] annoList) {
       for (int i = 0; i < annoList.length; i++) {    	  
          if (annoList[i] instanceof Table) {
