@@ -6,14 +6,14 @@ public class ComponentApp {
 
    @Column(name = "COMPONENT_NAME", id = 102)
    @Author(name = "CB", year = 1992)
-   String componentName = "102";
+   String componentName;
 
    @Author(name = "CD", year = 1993)
-   String componentLocation = "1993";
+   String componentLocation;
 
    @Column(name = "COMPONENT_PROVIDER", id = 104)
    @Author(name = "CC", year = 1994)
-   String componentProvider = "104";
+   String componentProvider;
 
    public void getComponent(int x, int y, int z) {
       System.out.println("[DBG] getComponent called");
