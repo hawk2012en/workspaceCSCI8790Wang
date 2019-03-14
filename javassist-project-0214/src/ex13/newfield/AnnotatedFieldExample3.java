@@ -43,7 +43,7 @@ public class AnnotatedFieldExample3 {
             System.out.println("Column: " + column.name() + ", ID: " + column.id());
          } else if (annoList[i] instanceof Author) {
             Author author = (Author) annoList[i];
-            System.out.println("Name: " + author.name() + ", Year: " + author.year());
+            System.out.println("Author: " + author.name() + ", Year: " + author.year());
          }
       }
    }
