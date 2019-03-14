@@ -46,9 +46,10 @@ public class InsertMethodBody {
 			 
 	            		 ClassPool pool = ClassPool.getDefault();
 	                     pool.insertClassPath(INPUT_DIR);
-	                     CtClass cc = pool.get("target." + className);
+	                     CtClass cc;
 	                     CtMethod m;
 	                     try {
+	                    	cc = pool.get("target." + className);
 	                        m = cc.getDeclaredMethod(methodName);
 	                     } catch (NotFoundException e) {
 	                    	 System.out.println("[WRN] Invalid input class!!");
