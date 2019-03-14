@@ -82,7 +82,7 @@ public class AnnotatedFieldExample3 {
       for (int i = 0; i < annoList.length; i++) {
          if (annoList[i] instanceof Author) {
             Author author = (Author) annoList[i];
-            System.out.println("Name: " + author.name() + ", Year: " + author.year());
+            System.out.println("Author: " + author.name() + ", Year: " + author.year());
          }
       }
    }
